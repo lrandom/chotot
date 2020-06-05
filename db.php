@@ -3,7 +3,7 @@ class DB
 {
   public $db = null;
   
-  __construct(){
+  function __construct(){
     $this->getDB();
   }
   
