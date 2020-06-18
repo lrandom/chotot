@@ -1,6 +1,6 @@
 <?php 
   require_once('IModel.php');
-  require_once('./../db.php');
+  require_once('db.php');
   class Province extends DB implements IModel
   {
     public $tableName = 'provinces';

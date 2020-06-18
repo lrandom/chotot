@@ -1,6 +1,6 @@
 <?php 
   require_once('IModel.php');
-  require_once('./../db.php');
+  require_once('db.php');
   class User extends DB implements IModel
   {
       public $tableName = 'users';
