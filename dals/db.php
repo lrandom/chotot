@@ -9,7 +9,7 @@ class DB
   
   public function getDB()
   {
-    $this->db = new PDO('mysql:host=localhost;dbname=marketplaces', 'root', 'koodinh');
+    $this->db = new PDO('mysql:host=localhost;dbname=chotot', 'root', 'koodinh');
     return $this->db;
   }
 
