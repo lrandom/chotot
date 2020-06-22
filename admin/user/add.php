@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<?php require_once('./commons/header.php') ?>
+<?php require_once('./../commons/header.php') ?>
 
 <body>
-    <?php require_once('./commons/nav.php') ?>
+    <?php require_once('./../commons/nav.php') ?>
     <div class="container">
+        <br>
+        <!-- BREADCUM -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Admin</a></li>
+                <li class="breadcrumb-item"><a href="index.php">Nguời dùng</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Thêm mới</li>
+            </ol>
+        </nav>
         <form>
             <div class="form-group">
                 <label for="exampleInputEmail1">Tên đăng nhập</label>
@@ -56,7 +65,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
-    <?php require_once('./commons/footer.php')?>
+    <?php require_once('./../commons/footer.php')?>
 </body>
 
 </html>
