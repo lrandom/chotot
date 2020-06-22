@@ -1,5 +1,9 @@
 <?php 
+   session_start();
    require_once('./../../dals/user.php');
+   if(isset($_SESSION['success'])){
+       unset($_SESSION['success']);
+   }
    if(isset($_POST['username'])){
     $data['username'] = $_POST['username'];
     $data['fullname'] = $_POST['fullname'];
@@ -12,8 +16,10 @@
     $user = new User();
     //thêm bản ghi vào bảng user
     $user->insertOne($data);
-
-
+    //thêm thông báo 
+    $_SESSION['success'] = array(
+        'msg'=>'Thêm thành công'
+    );
    }
 
 ?>
@@ -33,6 +39,16 @@
                 <li class="breadcrumb-item active" aria-current="page">Thêm mới</li>
             </ol>
         </nav>
+
+        <?php 
+        if(isset($_SESSION['success'])){
+            ?>
+        <div class="alert alert-success" role="alert">
+            <?php echo $_SESSION['success']['msg']; ?>
+        </div>
+        <?php
+        }
+        ?>
         <form method="post">
             <div class="form-group">
                 <label for="exampleInputEmail1">Tên đăng nhập</label>
