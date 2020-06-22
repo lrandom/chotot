@@ -1,3 +1,22 @@
+<?php 
+   require_once('./../../dals/user.php');
+   if(isset($_POST['username'])){
+    $data['username'] = $_POST['username'];
+    $data['fullname'] = $_POST['fullname'];
+    $data['pwd'] = md5($_POST['pwd']);//mahoa 
+    $data['email'] = $_POST['email'];
+    $data['address'] = $_POST['address'];
+    $data['phone'] = $_POST['phone'];
+    $data['level'] = $_POST['level'];
+    $data['status'] = $_POST['status'];
+    $user = new User();
+    //thêm bản ghi vào bảng user
+    $user->insertOne($data);
+
+
+   }
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <?php require_once('./../commons/header.php') ?>
@@ -14,7 +33,7 @@
                 <li class="breadcrumb-item active" aria-current="page">Thêm mới</li>
             </ol>
         </nav>
-        <form>
+        <form method="post">
             <div class="form-group">
                 <label for="exampleInputEmail1">Tên đăng nhập</label>
                 <input type="text" name="username" class="form-control" placeholder="Tên đăng nhập">

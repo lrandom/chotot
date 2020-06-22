@@ -38,8 +38,8 @@
         status 0 - deactive, 1- active*/
 
         $stmn = $this->db->prepare('INSERT INTO '
-        .$this->tableName.'(username,fullname,email,phone,address,level,status) 
-        VALUES(:username, :fullname, :email, :phone, :address,:level,:status)');
+        .$this->tableName.'(username,fullname,email,phone,address,level,status,pwd) 
+        VALUES(:username, :fullname, :email, :phone, :address,:level,:status,:pwd)');
         $stmn->execute(array(
           ':username'=>$payload['username'],
           ':fullname'=>$payload['fullname'],
@@ -47,7 +47,8 @@
           ':phone'=>$payload['phone'],
           ':email'=>$payload['email'],
           ':level'=>$payload['level'],
-          ':status'=>$payload['status']
+          ':status'=>$payload['status'],
+          ':pwd'=>$payload['pwd']
         ));
       }
 
