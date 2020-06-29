@@ -85,6 +85,17 @@
         // };
       }
 
+      public function checkLogin($email,$pwd){
+        $query = $this->db->query('SELECT * FROM '
+        .$this->tableName.' WHERE email="'.$email.'" AND pwd="'.$pwd.'" AND status=1');
+        $user =  $query->fetchAll();
+        if(count($user)==1){
+          return $user[0];
+        }else{
+          return null;
+        }
+      }
+
   }
   
 ?>
