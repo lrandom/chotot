@@ -72,7 +72,7 @@
                     </td>
                     <td>
                         <a>Xoá</a> |
-                        <a>Sửa</a>
+                        <a href="edit.php?id=<?php echo $r['id']; ?>">Sửa</a>
                     </td>
                 </tr>
                 <?php

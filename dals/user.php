@@ -40,6 +40,8 @@
         $stmn = $this->db->prepare('INSERT INTO '
         .$this->tableName.'(username,fullname,email,phone,address,level,status,pwd) 
         VALUES(:username, :fullname, :email, :phone, :address,:level,:status,:pwd)');
+        try {
+
         $stmn->execute(array(
           ':username'=>$payload['username'],
           ':fullname'=>$payload['fullname'],
@@ -49,7 +51,10 @@
           ':level'=>$payload['level'],
           ':status'=>$payload['status'],
           ':pwd'=>$payload['pwd']
-        ));
+        ));          //code...
+        } catch (\Throwable $th) {
+          echo $th->getMessage();
+        }
       }
 
       public function updateOne($payload){

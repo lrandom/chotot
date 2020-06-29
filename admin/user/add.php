@@ -17,11 +17,12 @@
     //thêm bản ghi vào bảng user
     $user->insertOne($data);
     //thêm thông báo 
-    $_SESSION['success'] = array(
+    $_SESSION['success'] = [
         'msg'=>'Thêm thành công'
-    );
+    ];
+    
+    header('add.php');
    }
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
