@@ -4,9 +4,7 @@
    if(isset($_SESSION['success'])){
        unset($_SESSION['success']);
    }
-
-
-   
+ 
    if(isset($_POST['username'])){
     $data['username'] = trim($_POST['username']);
     $data['fullname'] = trim($_POST['fullname']);

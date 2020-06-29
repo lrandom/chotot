@@ -2,6 +2,11 @@
    require_once('./../../dals/user.php');//include dal user
    $userDal = new User(); //khoi tao dal
    $result = $userDal->getAll();//lấy về danh sách các người dùng
+   if(isset($_GET['action']) && $_GET['action']=='delete'){
+     //Xoá
+     $id = $_GET['id'];
+     $userDal->deleteOne($id);
+   } 
 ?>
 
 <!DOCTYPE html>
@@ -71,7 +76,7 @@
                         ?>
                     </td>
                     <td>
-                        <a>Xoá</a> |
+                        <a href="?id=<?php echo $r['id'] ?>&action=delete">Xoá</a> |
                         <a href="edit.php?id=<?php echo $r['id']; ?>">Sửa</a>
                     </td>
                 </tr>
