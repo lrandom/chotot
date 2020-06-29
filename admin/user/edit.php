@@ -4,31 +4,35 @@
    if(isset($_SESSION['success'])){
        unset($_SESSION['success']);
    }
+
+
+   
    if(isset($_POST['username'])){
-    $data['username'] = $_POST['username'];
-    $data['fullname'] = $_POST['fullname'];
-    $data['pwd'] = md5($_POST['pwd']);//mahoa 
-    $data['email'] = $_POST['email'];
+    $data['username'] = trim($_POST['username']);
+    $data['fullname'] = trim($_POST['fullname']);
+    $data['email'] = trim($_POST['email']);
     $data['address'] = $_POST['address'];
     $data['phone'] = $_POST['phone'];
     $data['level'] = $_POST['level'];
     $data['status'] = $_POST['status'];
+    echo $_POST['status'];//exit();
+    //Lấy user từ csdl 
+    $id = $_GET['id'];
+    $data['id']=$id;
     $user = new User();
-    //thêm bản ghi vào bảng user
-    $user->insertOne($data);
+    //Cập nhật dữ liệu mới
+    $user->updateOne($data);
     //thêm thông báo 
     $_SESSION['success'] = [
-        'msg'=>'Thêm thành công'
+        'msg'=>'Sửa thành công'
     ];
-    
-    header('add.php');
    }
 
    if(isset($_GET['id'])){
-       $id = $_GET['id'];
-       $user = new User();
-       $user = $user->getOne($id);
-       $user = $user[0];
+    $id = $_GET['id'];
+    $user = new User();
+    $user = $user->getOne($id);
+    $user = $user[0];
    }
 ?>
 <!DOCTYPE html>

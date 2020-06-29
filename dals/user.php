@@ -61,12 +61,13 @@
         $stmn = $this->db->prepare('UPDATE users 
         SET fullname=:fullname, 
         email=:email,
-        address=:address
+        address=:address,
+        username=:username,
         phone=:phone,
         level=:level,
         status=:status
          WHERE id = :id');
-        
+        //try {
         $stmn->execute(
           array(
             ':id'=>$payload['id'],
@@ -74,9 +75,14 @@
             ':phone'=>$payload['phone'],
             ':address'=>$payload['address'],
             ':level'=>$payload['level'],
-            ':status'=>$payload['status']
+            ':status'=>$payload['status'],
+            ':email'=>$payload['email'],
+            ':username'=>$payload['username']
           )
           );
+        // }catch(Exception $e){
+        //   echo $e;
+        // };
       }
 
   }
