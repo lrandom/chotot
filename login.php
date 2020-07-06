@@ -1,41 +1,40 @@
 <?php
-   session_start();
-   //check xem người dùng đã đăng nhập hay chưa 
-   if(isset($_SESSION['user'])){
-       header('Location:profile.php');
-   }
-   if(isset($_SESSION['error'])){
-       unset($_SESSION['error']);
-   }
-   if(isset($_POST['email'])){
-       //kiểm tra xem ngừoi dùng gửi thông tin đăng nhập hay chưa 
-       $email = $_POST['email'];
-       $pwd = md5($_POST['pwd']);
+session_start();
+//check xem người dùng đã đăng nhập hay chưa 
+if (isset($_SESSION['user'])) {
+    header('Location:profile.php');
+}
+if (isset($_SESSION['error'])) {
+    unset($_SESSION['error']);
+}
+if (isset($_POST['email'])) {
+    //kiểm tra xem ngừoi dùng gửi thông tin đăng nhập hay chưa 
+    $email = $_POST['email'];
+    $pwd = md5($_POST['pwd']);
 
-       require_once('dals/user.php');
-       $userDal = new User();
-       $user= $userDal->checkLogin($email,$pwd);
-       if($user!=null){
-         $_SESSION['user']=$user;
-         header('Location:profile.php');     
-       }else{
-         $_SESSION['error'] = 'Không tìm thấy user, thử lại !!!';
-         //exit();
-       }
-   }
+    require_once('dals/user.php');
+    $userDal = new User();
+    $user = $userDal->checkLogin($email, $pwd);
+    if ($user != null) {
+        $_SESSION['user'] = $user;
+        header('Location:profile.php');
+    } else {
+        $_SESSION['error'] = 'Không tìm thấy user, thử lại !!!';
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <?php require_once 'commons/header.php' ?>
 
 <body>
-    <?php require_once 'commons/nav.php'?>
+    <?php require_once 'commons/nav.php' ?>
     <div class="container">
-        <?php if(isset($_SESSION['error'])){?>
+        <?php if (isset($_SESSION['error'])) { ?>
         <div class="alert alert-danger" role="alert">
-            <?php echo $_SESSION['error'];?>
+            <?php echo $_SESSION['error']; ?>
         </div>
-        <?php }?>
+        <?php } ?>
         <form method="post">
             <div class="form-group">
                 <label for="exampleInputEmail1">Địa chỉ mail</label>
@@ -59,7 +58,7 @@
             <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
-    <?php require_once 'commons/footer.php'?>
+    <?php require_once 'commons/footer.php' ?>
 </body>
 
 </html>
