@@ -1,11 +1,16 @@
 <?php
  session_start();
+ require_once './../config.php';
  if(!isset($_SESSION['user'])){
-    header("Location:login.php");
+    header("Location:".BASE_URL."login.php");
  }
  if(isset($_GET['logout'])){
      //viết code xử lý đăng xuất ở đây luôn
  }
+
+ require_once './../dals/province.php';
+ $provinceDal = new Province();
+ $provinces = $provinceDal->getAll(1,100);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,7 +26,27 @@
             <!--cột trái-->
 
             <div class="col-md-8 col-xs-12">
-                <form>
+                <form method="post" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label>Ảnh 1</label>
+                        <input type="file" accept="image/*" name="image[]" class="form-control" placeholder="Tiêu đề">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ảnh 2</label>
+                        <input type="file" accept="image/*" name="image[]" class="form-control" placeholder="Tiêu đề">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ảnh 3</label>
+                        <input type="file" accept="image/*" name="image[]" class="form-control" placeholder="Tiêu đề">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ảnh 4</label>
+                        <input type="file" accept="image/*" name="image[]" class="form-control" placeholder="Tiêu đề">
+                    </div>
+
                     <div class="form-group">
                         <label>Tiêu đề</label>
                         <input type="text" name="title" class="form-control" placeholder="Tiêu đề">
@@ -35,6 +60,23 @@
                     <div class="form-group">
                         <label>Nội dung</label>
                         <textarea class="form-control" name="content"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tỉnh</label>
+                        <select class="form-control" name="id_province">
+                            <!--dùng vòng lặp-->
+                            <option value="-1">Chọn tỉnh</option>
+                            <?php
+                              foreach ($provinces as $r){
+                            ?>
+                            <option value="<?php echo $r['id'] ?>">
+                                <?php echo $r['name']; ?>
+                            </option>
+                            <?php
+                              }
+                            ?>
+                        </select>
                     </div>
 
                     <div class="form-group">
@@ -66,6 +108,8 @@
                         <label>Mô tả ngắn</label>
                         <textarea class="form-control" name="description"></textarea>
                     </div>
+
+
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
@@ -74,5 +118,26 @@
     </div>
     <?php require_once '../commons/footer.php' ?>
 </body>
+
+<script>
+// ajax -> asynchorous javascript and xml 
+// bất đồng bộ javascript và xml //song song <> queue 
+// file trao đổi giữa php và javascript 
+// json,jsonp, html
+$.ajax({
+    type: "post",
+    url: BASE_URL + "ajax/city.php", //đường dẫn đích xử lý request
+    data: {
+        id_province: 1
+    },
+    dataType: "html",
+    success: function(response) {
+        console.log(response);
+    },
+    error: function(response) {
+
+    }
+});
+</script>
 
 </html>
