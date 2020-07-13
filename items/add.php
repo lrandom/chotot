@@ -124,11 +124,17 @@
 // bất đồng bộ javascript và xml //song song <> queue 
 // file trao đổi giữa php và javascript 
 // json,jsonp, html
-$.ajax({
+$('select[name="id_province"]').change(function(){
+    var option = $(this).find('option:selected');
+    //code xử lý
+    var idProvince = option.val();
+    console.log(idProvince);
+    //gọi ajax để lấy về thành phố
+    $.ajax({
     type: "post",
-    url: BASE_URL + "ajax/city.php", //đường dẫn đích xử lý request
+    url:"<?php echo BASE_URL;?>ajax/city.php", //đường dẫn đích xử lý request
     data: {
-        id_province: 1
+        id_province: idProvince
     },
     dataType: "html",
     success: function(response) {
@@ -138,6 +144,8 @@ $.ajax({
 
     }
 });
+})
+
 </script>
 
 </html>
