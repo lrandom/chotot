@@ -9,8 +9,59 @@
  }
 
  require_once './../dals/province.php';
+ require_once './../dals/category.php';
  $provinceDal = new Province();
  $provinces = $provinceDal->getAll(1,100);
+ $categoryDal = new Categories();
+ $categories = $categoryDal->getAll();
+ 
+
+require_once './../dals/item.php';
+require_once './../dals/item_image.php';
+ //xử lý dữ liệu 
+ //var_dump($_POST);
+ if(isset($_POST['title'])){
+     $data['title'] = $_POST['title'];
+     $data['price'] = $_POST['price'];
+     $data['content'] = $_POST['content'];
+     $data['id_province'] = $_POST['id_province'];
+     $data['id_city'] = $_POST['id_city'];
+     $data['address'] = $_POST['address'];
+     $data['id_category'] = $_POST['id_category'];
+     $data['keyword'] = $_POST['keyword'];
+     $data['description'] = $_POST['description'];
+     $data['id_user'] = $_SESSION['user']['id'];
+     var_dump($data);
+     $itemDAL = new Item();
+     $lastInsertId = $itemDAL->insertOne($data);
+
+     //tạo folder 
+     if(!is_dir('./../uploads/items')){
+        //nếu như chưa có folder thì tạo mới
+        mkdir('./../uploads/items',0777); //4 doc 2 ghi 1 exe
+     }
+     if(!is_dir('./../uploads/items/'.date('Y').date('m'))){
+        mkdir('./../uploads/items/'.date('Y').date('m'),0777);
+     }
+
+     for ($i=0; $i < 4 ; $i++) { 
+        if(isset($_FILES['image'.$i]) 
+        && $_FILES['image'.$i]['name']!=null){
+           $destPathDir = './../uploads/items/'.date('Y').date('m');//thư mục đích
+           $destPathFile =  $destPathDir.'/'.time().$i.$_FILES['image'.$i]['name'];
+           move_uploaded_file(
+               $_FILES['image'.$i]['tmp_name'],
+               $destPathFile
+           );
+   
+           $itemImageDAL = new ItemImage();
+           $payload['id_item']=$lastInsertId;
+           $payload['path']= $destPathFile;
+           $payload['is_thumbnail']=1;
+           $itemImageDAL->insertOne($payload);
+        }
+     }
+ }//end insert data
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,22 +80,22 @@
                 <form method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Ảnh 1</label>
-                        <input type="file" accept="image/*" name="image[]" class="form-control" placeholder="Tiêu đề">
+                        <input type="file" accept="image/*" name="image0" class="form-control" placeholder="Tiêu đề">
                     </div>
 
                     <div class="form-group">
                         <label>Ảnh 2</label>
-                        <input type="file" accept="image/*" name="image[]" class="form-control" placeholder="Tiêu đề">
+                        <input type="file" accept="image/*" name="image1" class="form-control" placeholder="Tiêu đề">
                     </div>
 
                     <div class="form-group">
                         <label>Ảnh 3</label>
-                        <input type="file" accept="image/*" name="image[]" class="form-control" placeholder="Tiêu đề">
+                        <input type="file" accept="image/*" name="image2" class="form-control" placeholder="Tiêu đề">
                     </div>
 
                     <div class="form-group">
                         <label>Ảnh 4</label>
-                        <input type="file" accept="image/*" name="image[]" class="form-control" placeholder="Tiêu đề">
+                        <input type="file" accept="image/*" name="image3" class="form-control" placeholder="Tiêu đề">
                     </div>
 
                     <div class="form-group">
@@ -95,7 +146,16 @@
                     <div class="form-group">
                         <label>Danh mục</label>
                         <select class="form-control" name="id_category">
-                            <!--dùng vòng lặp-->
+                        <option value="-1">Chọn tỉnh</option>
+                            <?php
+                              foreach ($categories as $r){
+                            ?>
+                            <option value="<?php echo $r['id'] ?>">
+                                <?php echo $r['name']; ?>
+                            </option>
+                            <?php
+                              }
+                            ?>
                         </select>
                     </div>
 
