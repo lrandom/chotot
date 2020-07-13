@@ -13,7 +13,8 @@
  $provinceDal = new Province();
  $provinces = $provinceDal->getAll(1,100);
  $categoryDal = new Categories();
- $categories = $categoryDal->getAll();
+ $parentCategories = $categoryDal->getByParentId(0);
+
  
 
 require_once './../dals/item.php';
@@ -31,7 +32,7 @@ require_once './../dals/item_image.php';
      $data['keyword'] = $_POST['keyword'];
      $data['description'] = $_POST['description'];
      $data['id_user'] = $_SESSION['user']['id'];
-     var_dump($data);
+     //var_dump($data);
      $itemDAL = new Item();
      $lastInsertId = $itemDAL->insertOne($data);
 
@@ -144,8 +145,24 @@ require_once './../dals/item_image.php';
                     </div>
 
                     <div class="form-group">
-                        <label>Danh mục</label>
+                        <label>Danh mục cha</label>
                         <select class="form-control" name="id_category">
+                        <option value="-1">Chọn danh mục cha</option>
+                            <?php
+                              foreach ($parentCategories as $r){
+                            ?>
+                            <option value="<?php echo $r['id'] ?>">
+                                <?php echo $r['name']; ?>
+                            </option>
+                            <?php
+                              }
+                            ?>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Danh mục con</label>
+                        <select class="form-control" name="id_sub_category">
                         <option value="-1">Chọn tỉnh</option>
                             <?php
                               foreach ($categories as $r){

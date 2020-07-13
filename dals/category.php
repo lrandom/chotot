@@ -9,10 +9,16 @@
         parent::__construct();
     }
     
-    public function getAll($page = 1,$countRows =10){
+    public function getAll($page = 1,$countRows =100){
         $position = ($page-1)*$countRows;//0
         $query = $this->db->query('SELECT * FROM '.
         $this->tableName.' LIMIT '.$position.','.$countRows);
+        return $query->fetchAll();
+     }
+
+     public function getByParentId($parentId){
+        $query = $this->db->query('SELECT * FROM '.
+        $this->tableName.' WHERE parent_id'.$parentId);
         return $query->fetchAll();
      }
     
