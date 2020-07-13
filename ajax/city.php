@@ -1,7 +1,8 @@
 <?php 
   require_once('./../dals/city.php');
   $city = new City();
-  $list = $city->getAll();
+  $idProvince = $_POST['id_province'];
+  $list = $city->getByProvinceId($idProvince);
 ?>
 
 <?php 

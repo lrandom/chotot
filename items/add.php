@@ -139,6 +139,7 @@ $('select[name="id_province"]').change(function(){
     dataType: "html",
     success: function(response) {
         console.log(response);
+        $('select[name="id_city"]').html(response);
     },
     error: function(response) {
 
