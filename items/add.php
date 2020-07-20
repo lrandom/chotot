@@ -224,6 +224,31 @@ $('select[name="id_province"]').change(function(){
 });
 })
 
+$('select[name="id_category"]').change(function(){
+    var option = $(this).find('option:selected');
+    //code xử lý
+    var idCategory = option.val();
+    console.log(idCategory);
+    //gọi ajax để lấy về danh mục con
+    $.ajax({
+    type: "post",
+    url:"<?php echo BASE_URL;?>ajax/category.php", //đường dẫn đích xử lý request
+    data: {
+        id_parent: idCategory 
+    },
+    dataType: "html",
+    success: function(response) {
+        console.log(response);
+        $('select[name="id_sub_category"]').html(response);
+    },
+    error: function(response) {
+
+    }
+});
+})
+
+
+
 </script>
 
 </html>
