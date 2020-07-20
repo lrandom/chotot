@@ -18,7 +18,7 @@
 
      public function getByParentId($parentId){
         $query = $this->db->query('SELECT * FROM '.
-        $this->tableName.' WHERE parent_id'.$parentId);
+        $this->tableName.' WHERE parent_id='.$parentId);
         return $query->fetchAll();
      }
     
