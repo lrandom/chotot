@@ -22,13 +22,22 @@ require_once './../dals/item_image.php';
  //xử lý dữ liệu 
  //var_dump($_POST);
  if(isset($_POST['title'])){
+     //var_dump($_POST);
      $data['title'] = $_POST['title'];
      $data['price'] = $_POST['price'];
-     $data['content'] = $_POST['content'];
+     $data['content'] =htmlspecialchars($_POST['content']);//chuyển html thành plain text
+     //htmlspecialchars_decode();//chuyển dữ liệu từ db thành html
      $data['id_province'] = $_POST['id_province'];
      $data['id_city'] = $_POST['id_city'];
      $data['address'] = $_POST['address'];
-     $data['id_category'] = $_POST['id_category'];
+     $data['status']=$_POST['status'];
+     $data['is_sale']=$_POST['is_sale'];
+
+     //$data['id_category'] 
+     $idCategory= $_POST['id_category'];
+     $idSubCategory = $_POST['id_sub_category'];
+     $category = $idCategory.'|'.$idSubCategory; // 1|2
+     $data['id_category']= $category;
      $data['keyword'] = $_POST['keyword'];
      $data['description'] = $_POST['description'];
      $data['id_user'] = $_SESSION['user']['id'];
@@ -71,13 +80,21 @@ require_once './../dals/item_image.php';
 <body>
     <?php require_once '../commons/nav.php' ?>
     <div class="container">
-        <div class="row">
+        
+        <div class="row" style="margin-top:20px">
             <div class="col-md-4 col-xs-12">
                 <?php require_once '../commons/user_menu.php'?>
             </div>
             <!--cột trái-->
 
             <div class="col-md-8 col-xs-12">
+               <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="#">Người dùng</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Thêm Tin đăng</li>
+                </ol>
+                </nav>
                 <form method="post" enctype="multipart/form-data">
                     <div class="form-group">
                         <label>Ảnh 1</label>
@@ -99,6 +116,23 @@ require_once './../dals/item_image.php';
                         <input type="file" accept="image/*" name="image3" class="form-control" placeholder="Tiêu đề">
                     </div>
 
+
+                    <div class="form-group">
+                        <label>Bán hoặc mua ?</label>
+                        <select class="form-control" name="is_sale">
+                            <option value="1">Bán</option>
+                            <option value="0">Mua</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tình trạng</label>
+                        <select class="form-control" name="status">
+                            <option value="0">Mới</option>
+                            <option value="1">Cũ</option>
+                        </select>
+                    </div>
+
                     <div class="form-group">
                         <label>Tiêu đề</label>
                         <input type="text" name="title" class="form-control" placeholder="Tiêu đề">
@@ -111,7 +145,7 @@ require_once './../dals/item_image.php';
 
                     <div class="form-group">
                         <label>Nội dung</label>
-                        <textarea class="form-control" name="content"></textarea>
+                        <textarea class="form-control" name="content" id="content" ></textarea>
                     </div>
 
                     <div class="form-group">
@@ -195,7 +229,17 @@ require_once './../dals/item_image.php';
     </div>
     <?php require_once '../commons/footer.php' ?>
 </body>
-
+<script src="https://cdn.ckeditor.com/ckeditor5/20.0.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+    .create(document.querySelector('#content'))
+    .then(editor => {
+        console.log( editor );
+    })
+    .catch( error => {
+        console.error( error );
+    });
+</script>
 <script>
 // ajax -> asynchorous javascript and xml 
 // bất đồng bộ javascript và xml //song song <> queue 
